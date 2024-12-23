@@ -11,12 +11,6 @@
         "registry": "https://npm.pkg.github.com/"
     },
     "main": "dist/index.js",
-    "exports": {
-        "./box": {
-            "import": "./dist/box.js",
-            "types": "./dist/box.d.ts"
-        }
-    },
     "scripts": {
         "prepare": "npm run build",
         "build": "tsc"
