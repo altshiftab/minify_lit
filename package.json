@@ -13,7 +13,7 @@
     "main": "dist/index.js",
     "scripts": {
         "prepare": "npm run build",
-        "build": "esbuild src/typescripts/index.ts --outfile=dist/index.js --bundle --platform=node && cp src/scripts/index.d.ts dist"
+        "build": "tsc && esbuild src/typescripts/index.ts --outfile=dist/index.js --bundle --platform=node && cp src/scripts/index.d.ts dist"
     },
     "devDependencies": {
         "@types/escodegen": "^0.0.10",
