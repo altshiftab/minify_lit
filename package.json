@@ -1,7 +1,6 @@
 {
     "name": "@altshiftab/minify_lit",
-    "type": "module",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "homepage": "https://github.com/altshiftab/minify_lit",
     "repository": {
         "type": "git",
