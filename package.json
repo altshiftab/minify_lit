@@ -1,0 +1,37 @@
+{
+    "name": "@altshiftab/minify_lit",
+    "type": "module",
+    "version": "0.0.1",
+    "homepage": "https://github.com/altshiftab/minify_lit",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/altshiftab/minify_lit.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
+    "main": "dist/index.js",
+    "exports": {
+        "./box": {
+            "import": "./dist/box.js",
+            "types": "./dist/box.d.ts"
+        }
+    },
+    "scripts": {
+        "prepare": "npm run build",
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@types/escodegen": "^0.0.10",
+        "@types/estraverse": "^5.1.7",
+        "@types/node": "^22.10.2",
+        "typescript": "^5.7.2"
+    },
+    "dependencies": {
+        "escodegen": "^2.1.0",
+        "esprima-next": "^6.0.3",
+        "lit": "^3.2.1",
+        "postcss": "^8.4.49",
+        "postcss-minify": "^1.1.0"
+    }
+}
