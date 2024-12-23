@@ -1,6 +1,6 @@
 {
     "name": "@altshiftab/minify_lit",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "homepage": "https://github.com/altshiftab/minify_lit",
     "repository": {
         "type": "git",
@@ -9,12 +9,12 @@
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/"
     },
-    "main": "dist/index.cjs.js",
-    "module": "dist/index.esm.js",
+    "main": "dist/index.cjs",
+    "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
     "scripts": {
         "prepare": "npm run build",
-        "build": "tsc && esbuild src/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.cjs.js && esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.esm.js"
+        "build": "tsc && esbuild src/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.cjs && esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.mjs"
     },
     "devDependencies": {
         "@types/escodegen": "^0.0.10",
