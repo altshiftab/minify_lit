@@ -5,8 +5,8 @@
         "moduleResolution": "NodeNext",
         "esModuleInterop": true,
         "strict": true,
-        "outDir": "./dist",
+        "outDir": "./src/scripts",
         "declaration": true,
     },
-    "include": ["src/**/*"]
+    "include": ["./src/typescripts/*"]
 }
