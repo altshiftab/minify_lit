@@ -3,10 +3,11 @@
         "module": "NodeNext",
         "target": "ESNext",
         "moduleResolution": "NodeNext",
+        "emitDeclarationOnly": true,
+        "declaration": true,
+        "declarationDir": "dist",
         "esModuleInterop": true,
         "strict": true,
-        "outDir": "./src/scripts",
-        "declaration": true,
     },
-    "include": ["./src/typescripts/*"]
+    "include": ["./src/*"]
 }
