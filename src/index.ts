@@ -15,7 +15,7 @@ import type {
 const postCssProcessor = postcss(postcssMinify());
 
 export default function(source: string) {
-    const parsedProgram= esprima.parseScript(source) as Program;
+    const parsedProgram= esprima.parseModule(source) as Program;
 
     estraverse.replace(parsedProgram, {
         enter(node: Node, parent: Node | null) {
