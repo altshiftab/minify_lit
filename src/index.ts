@@ -48,6 +48,6 @@ export default function(source: string) {
         }
     });
 
-    return {contents: escodegen.generate(parsedProgram)};
+    return escodegen.generate(parsedProgram);
 }
 
