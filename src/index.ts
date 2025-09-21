@@ -15,7 +15,7 @@ import type {
 const postCssProcessor = postcss(postcssMinify());
 
 export default function(source: string) {
-    const parsedProgram = esprima.parseModule(source, {tolerant: true}) as Program;
+    const parsedProgram = esprima.parse(source, {sourceType: "module"}) as Program;
 
     estraverse.replace(parsedProgram, {
         enter(node: Node, parent: Node | null) {
@@ -45,7 +45,8 @@ export default function(source: string) {
             }
 
             return node;
-        }
+        },
+        fallback: "iteration"
     });
 
     return escodegen.generate(parsedProgram);
