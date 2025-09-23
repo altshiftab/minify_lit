@@ -1,54 +1,49 @@
-import estraverse from 'estraverse';
-import esprima from 'esprima-next';
-import escodegen from 'escodegen';
-import postcss from 'postcss';
-// @ts-ignore
-import postcssMinify from 'postcss-minify';
+// NOTE: The typing of these dependencies is terrible. Not sure anything can be done about it.
 
-import type {
-    Program,
-    Node,
-    TaggedTemplateExpression,
-    Identifier,
-} from 'estree';
+import {parse} from "@babel/parser";
+import generateModule from "@babel/generator";
+import traverseModule, {NodePath} from "@babel/traverse";
+import type {Identifier, TaggedTemplateExpression, TemplateElement} from "@babel/types";
+import postcss from "postcss";
+// @ts-ignore
+import postcssMinify from "postcss-minify";
+
+const traverse = (traverseModule as any).default ?? (traverseModule as unknown as Function);
+const generate = (generateModule as any).default ?? (generateModule as unknown as Function);
 
 const postCssProcessor = postcss(postcssMinify());
 
 export default function(source: string) {
-    const parsedProgram = esprima.parse(source, {sourceType: "module"}) as Program;
-
-    estraverse.replace(parsedProgram, {
-        enter(node: Node, parent: Node | null) {
-            if (node.type === "TaggedTemplateExpression") {
-                const taggedNode = node as TaggedTemplateExpression;
-
-                if (taggedNode.tag.type !== "Identifier")
-                    return;
-
-                const tagIdentifier = taggedNode.tag as Identifier;
-
-                switch (tagIdentifier.name) {
-                case "css":
-                    node.quasi.quasis = node.quasi.quasis.map(q => {
-                        q.value = {raw: postCssProcessor.process(q.value.raw).css.trim()};
-                        return q;
-                    });
-                    break;
-                case "html":
-                    node.quasi.quasis = node.quasi.quasis.map(q => {
-                        q.value = {
-                            raw: q.value.raw.replace(/(\n\s+|\s+\n)/gm, '')
-                        };
-                        return q;
-                    });
-                }
-            }
-
-            return node;
-        },
-        fallback: "iteration"
+    const fileAst = parse(source, {
+        sourceType: "module",
     });
 
-    return escodegen.generate(parsedProgram);
-}
+    traverse(fileAst as any, {
+        TaggedTemplateExpression(path: NodePath<TaggedTemplateExpression>) {
+            const {node} = path;
+            if (node.tag.type !== "Identifier")
+                return;
 
+            const name = (node.tag as Identifier).name;
+            if (name !== "css" && name !== "html")
+                return;
+
+            node.quasi.quasis = node.quasi.quasis.map((q: TemplateElement) => {
+                const raw = q.value.raw || "";
+                const min = name === "css"
+                    ? postCssProcessor.process(raw).css.trim()
+                    : raw.replace(/(\n\s+|\s+\n)/gm, "").trim()
+                ;
+                // Update both raw and cooked so generator emits desired text
+                q.value.raw = min;
+                // cooked can be null in Babel types; ensure it's a string here
+                (q.value as any).cooked = min;
+
+                return q;
+            });
+        },
+    });
+
+    const {code} = generate(fileAst as any, {comments: true});
+    return code;
+}
