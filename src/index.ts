@@ -1,4 +1,4 @@
-// NOTE: The typing of these dependencies is terrible. Not sure anything can be done about it.
+// NOTE: The typing of these dependencies is a mess. Not sure anything can be done about it from my side.
 
 import {parse} from "@babel/parser";
 import generateModule from "@babel/generator";
@@ -28,11 +28,12 @@ export default function(source: string) {
             if (name !== "css" && name !== "html")
                 return;
 
+            // TODO: I believe there is a problem with the trimming around expressions. Fix later?
             node.quasi.quasis = node.quasi.quasis.map((q: TemplateElement) => {
                 const raw = q.value.raw || "";
                 const min = name === "css"
                     ? postCssProcessor.process(raw).css.trim()
-                    : raw.replace(/(\n\s+|\s+\n)/gm, "").trim()
+                    : raw.replace(/(\n\s+|\s+\n)/gm, "")
                 ;
                 // Update both raw and cooked so generator emits desired text
                 q.value.raw = min;
