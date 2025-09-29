@@ -1,6 +1,6 @@
 {
     "name": "@altshiftab/minify_lit",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "type": "module",
     "homepage": "https://github.com/altshiftab/minify_lit",
     "repository": {
@@ -23,7 +23,7 @@
     "scripts": {
         "prepare": "npm run build",
         "build": "tsc",
-        "test": "npm run build && node test/test.mjs"
+        "test": "npm run build && node test/test.ts"
     },
     "dependencies": {
         "@babel/generator": "^7.28.3",
