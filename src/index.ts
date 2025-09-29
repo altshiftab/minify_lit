@@ -27,7 +27,7 @@ export default function(source: string) {
             // TODO: Support `svg`?
             switch ((node.tag as Identifier).name) {
                 case "css":
-                    const PLACEHOLDER = "@TEMPLATE_EXPRESSION()"
+                    const PLACEHOLDER = "@TEMPLATE_EXPRESSION"
 
                     const split = postCssProcessor.process(
                         node.quasi.quasis.map(q => q.value.raw ?? "").join(PLACEHOLDER)
