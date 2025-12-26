@@ -44,7 +44,7 @@ export default function(source: string) {
                 case "html":
                     node.quasi.quasis = node.quasi.quasis.map((q: TemplateElement, i: number) => {
                         const raw = q.value.raw || "";
-                        let min = raw.replace(/(\n\s+|\s+\n)/gm, "");
+                        let min = raw.replace(/"[^"]*"|'[^']*'|`[^`]*`/g, (match) => match.replace(/[\n\r]/g, '')).replace(/\s+/g, ' ');
 
                         if (i === 0)
                             min = min.trimStart();
