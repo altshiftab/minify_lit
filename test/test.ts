@@ -30,8 +30,26 @@ assert(
 
 
 assert(
-    output.includes("html`<div>Test</div>`"),
+    output.includes("html`<div> Test </div>`"),
     'Output should contain minified HTML inside html`` template.'
+);
+
+const multiLineInput = [
+    "import {html} from 'lit';",
+    "const tpl = html`",
+    '  <div',
+    '    class="foo',
+    'bar">',
+    "    Test",
+    "  </div>",
+    "`;",
+].join('\n');
+
+const multiLineOutput = minify(multiLineInput);
+
+assert(
+    multiLineOutput.includes('html`<div class="foobar"> Test </div>`'),
+    'Output should contain minified HTML with multi-line attributes.'
 );
 
 console.log('All tests passed.');
